@@ -1,8 +1,10 @@
-// Cloudflare Pages Function: protegge l'intero sito con una password
-// (HTTP Basic Auth). Va messo nella RADICE della cartella pubblicata
-// (stesso livello di serie_a_analytics.html) col nome esatto "_worker.js":
-// Cloudflare lo esegue automaticamente prima di servire i file statici.
-//
+// Cloudflare Worker che protegge l'intero sito con una password (HTTP Basic
+// Auth). Vive nella RADICE del repository (accanto a deploy.py), NON dentro
+// site/: e' referenziato come entry point tramite "main" in wrangler.jsonc,
+// cosi' Cloudflare lo esegue come logica del worker invece di pubblicarlo
+// come file statico scaricabile (l'errore di build "Uploading a Pages
+// _worker.js file as an asset" succedeva proprio perche' prima stava dentro
+// site/ senza questa configurazione esplicita).
 // La password NON è scritta qui: viene letta da due variabili d'ambiente
 // segrete impostate nel pannello Cloudflare Pages (Settings > Environment
 // variables), cosi' anche se il repository GitHub è pubblico la password
