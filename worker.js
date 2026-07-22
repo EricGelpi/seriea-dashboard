@@ -14,6 +14,23 @@
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
+    // Questi file non contengono nessun dato personale: il browser deve
+    // poterli leggere liberamente per capire che il sito e' "installabile"
+    // come app. Solo la dashboard vera (l'HTML con i pronostici) resta
+    // dietro password.
+    const PUBLIC_PATHS = [
+      '/manifest.json',
+      '/service-worker.js',
+      '/icon-192.png',
+      '/icon-512.png',
+      '/apple-touch-icon.png'
+    ];
+    if (PUBLIC_PATHS.includes(url.pathname)) {
+      return env.ASSETS.fetch(request);
+    }
+
     const user = env.DASH_USER;
     const pass = env.DASH_PASS;
 
